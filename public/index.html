@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9788309907035738"
+     crossorigin="anonymous"></script>
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-YLRP5NHW2D"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-YLRP5NHW2D');
+  </script>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="theme-color" content="#0b0b12" />
+  <meta name="description" content="Descarga videos de TikTok o guarda su audio en MP3. Pega un enlace para preparar tu archivo." />
+  <title>TikTokSMA — Descargador de videos</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="styles/main.css" />
+</head>
+<body>
+  <main class="page-shell">
+    <header class="site-header">
+      <a class="brand" href="/" aria-label="TikTokSMA, inicio">
+        <span class="brand-mark" aria-hidden="true">S</span>
+        <span>TikTok<span class="brand-accent">SMA</span></span>
+      </a>
+      <span class="header-note"><span class="status-dot" aria-hidden="true"></span> Descarga sencilla y rápida</span>
+    </header>
+
+    <section class="hero" aria-labelledby="page-title">
+      <h1 id="page-title">Guarda tus videos <span>favoritos</span></h1>
+      <p class="hero-copy">Pega el enlace de TikTok y prepara tu video para descargarlo en unos segundos.</p>
+
+      <div class="download-card">
+        <form id="downloadForm" novalidate>
+          <label for="url">Enlace del video</label>
+          <div class="input-row">
+            <div class="url-field">
+              <svg aria-hidden="true" viewBox="0 0 24 24" fill="none">
+                <path d="M10 13.5a4.5 4.5 0 0 0 6.36 0l3-3A4.5 4.5 0 0 0 13 4.14l-1.72 1.72M14 10.5a4.5 4.5 0 0 0-6.36 0l-3 3A4.5 4.5 0 0 0 11 19.86l1.72-1.72" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" />
+              </svg>
+              <input type="url" id="url" name="url" placeholder="https://www.tiktok.com/@usuario/video/..." autocomplete="url" aria-describedby="url-hint" required />
+            </div>
+            <button class="submit-button" type="submit">
+              <span>Analizar video</span>
+              <svg aria-hidden="true" viewBox="0 0 20 20" fill="none">
+                <path d="M4 10h12m-5-5 5 5-5 5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" />
+              </svg>
+            </button>
+          </div>
+          <p class="input-hint" id="url-hint">Asegúrate de que el video sea público y que el enlace sea correcto.</p>
+        </form>
+
+        <div id="resultado" class="result-area" role="status" aria-live="polite" aria-atomic="true"></div>
+      </div>
+
+      <div class="feature-row" aria-label="Características">
+        <div class="feature"><span class="feature-icon" aria-hidden="true">↧</span><span>Descarga directa</span></div>
+        <span class="feature-divider" aria-hidden="true"></span>
+        <div class="feature"><span class="feature-icon" aria-hidden="true">◈</span><span>Sin complicaciones</span></div>
+        <span class="feature-divider" aria-hidden="true"></span>
+        <div class="feature"><span class="feature-icon" aria-hidden="true">⌁</span><span>Compatible con móvil</span></div>
+      </div>
+      <p class="fine-print">Usa esta herramienta respetando los derechos de autor y las condiciones de TikTok.</p>
+    </section>
+
+    <footer class="site-footer">
+      <span>© <span id="year"></span> TikTokSMA</span>
+      <span>Hecho para que guardar sea más fácil.</span>
+    </footer>
+  </main>
+
+  <script>
+    const form = document.getElementById('downloadForm');
+    const urlInput = document.getElementById('url');
+    const resultado = document.getElementById('resultado');
+    const submitButton = form.querySelector('button[type="submit"]');
+    let activeBlobUrls = [];
+
+    document.getElementById('year').textContent = new Date().getFullYear();
+
+    function showMessage(message, type) {
+      resultado.replaceChildren();
+      const paragraph = document.createElement('p');
+      paragraph.className = `result-message ${type}`;
+      paragraph.textContent = message;
+      resultado.append(paragraph);
+    }
+
+    async function downloadMedia(url, filename, button, audioStatus) {
+      const buttonLabel = button.textContent;
+      button.disabled = true;
+      button.textContent = `Preparando ${filename.endsWith('.mp3') ? 'MP3' : 'video'}…`;
+      audioStatus.textContent = '';
+
+      try {
+        const mediaUrl = new URL(url);
+        if (mediaUrl.protocol !== 'https:') {
+          throw new Error('La dirección de descarga no es segura.');
+        }
+
+        const response = await fetch(mediaUrl);
+        if (!response.ok) {
+          throw new Error('No se pudo obtener el archivo. Inténtalo de nuevo.');
+        }
+
+        const blobUrl = URL.createObjectURL(await response.blob());
+        activeBlobUrls.push(blobUrl);
+        const downloadLink = document.createElement('a');
+        downloadLink.href = blobUrl;
+        downloadLink.download = filename;
+        document.body.append(downloadLink);
+        downloadLink.click();
+        downloadLink.remove();
+        audioStatus.textContent = `Tu descarga ${filename.endsWith('.mp3') ? 'MP3' : 'de video'} está lista.`;
+      } catch (error) {
+        console.error(error);
+        audioStatus.textContent = error.message || 'No se pudo descargar el archivo.';
+      } finally {
+        button.disabled = false;
+        button.textContent = buttonLabel;
+      }
+    }
+
+    form.addEventListener('submit', async (event) => {
+      event.preventDefault();
+      const url = urlInput.value.trim();
+
+      if (!url) {
+        showMessage('Pega el enlace del video para continuar.', 'error-msg');
+        urlInput.focus();
+        return;
+      }
+
+      activeBlobUrls.forEach((blobUrl) => URL.revokeObjectURL(blobUrl));
+      activeBlobUrls = [];
+
+      submitButton.disabled = true;
+      form.setAttribute('aria-busy', 'true');
+      resultado.innerHTML = '<div class="loading-state"><span class="spinner" aria-hidden="true"></span><span>Analizando tu video…</span></div>';
+
+      try {
+        const response = await fetch('/api/descargar', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ url })
+        });
+        const data = await response.json();
+
+        if (!response.ok || !data.videoUrl) {
+          throw new Error(data.error || 'No se pudo procesar el enlace. Comprueba que sea válido e inténtalo de nuevo.');
+        }
+
+        const parsedVideoUrl = new URL(data.videoUrl);
+        if (parsedVideoUrl.protocol !== 'https:') {
+          throw new Error('La dirección del video no es segura.');
+        }
+
+        resultado.replaceChildren();
+
+        const successMessage = document.createElement('p');
+        successMessage.className = 'result-message success-msg';
+        successMessage.textContent = '¡Tu video está listo!';
+        resultado.append(successMessage);
+
+        const video = document.createElement('video');
+        video.className = 'video-player';
+        video.src = parsedVideoUrl.href;
+        video.controls = true;
+        video.playsInline = true;
+        video.setAttribute('aria-label', 'Vista previa del video');
+        resultado.append(video);
+
+        const downloadLink = document.createElement('button');
+        downloadLink.className = 'download-link video-download';
+        downloadLink.type = 'button';
+        downloadLink.textContent = 'Descargar video';
+        const downloadOptions = document.createElement('div');
+        downloadOptions.className = 'download-options';
+        if (!data.audioUrl) {
+          downloadOptions.classList.add('single-download');
+        }
+        downloadOptions.append(downloadLink);
+
+        const audioStatus = document.createElement('p');
+        audioStatus.className = 'audio-status';
+        audioStatus.setAttribute('role', 'status');
+
+        downloadLink.addEventListener('click', () => {
+          downloadMedia(data.videoUrl, 'TikTokSMA.mp4', downloadLink, audioStatus);
+        });
+
+        if (data.audioUrl) {
+          const audioButton = document.createElement('button');
+          audioButton.className = 'download-link audio-download';
+          audioButton.type = 'button';
+          audioButton.textContent = 'Descargar MP3';
+          audioButton.addEventListener('click', () => {
+            downloadMedia(data.audioUrl, 'TikTokSMA.mp3', audioButton, audioStatus);
+          });
+          downloadOptions.append(audioButton);
+        }
+
+        resultado.append(downloadOptions);
+        resultado.append(audioStatus);
+
+        if (!data.audioUrl) {
+          audioStatus.textContent = 'TikWM no proporcionó una pista de audio para este video.';
+        }
+      } catch (error) {
+        console.error(error);
+        showMessage(error.message || 'Ocurrió un error al descargar el video.', 'error-msg');
+      } finally {
+        submitButton.disabled = false;
+        form.removeAttribute('aria-busy');
+      }
+    });
+
+    window.addEventListener('beforeunload', () => {
+      activeBlobUrls.forEach((blobUrl) => URL.revokeObjectURL(blobUrl));
+    });
+  </script>
+</body>
+</html>
