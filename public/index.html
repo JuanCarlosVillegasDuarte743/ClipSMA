@@ -3,29 +3,29 @@
 <head>
   <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9788309907035738"
      crossorigin="anonymous"></script>
-  <script async src="https://www.googletagmanager.com/gtag/js?id=G-YLRP5NHW2D"></script>
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-G8ML88KDRS"></script>
   <script>
     window.dataLayer = window.dataLayer || [];
     function gtag(){dataLayer.push(arguments);}
     gtag('js', new Date());
-    gtag('config', 'G-YLRP5NHW2D');
+    gtag('config', 'G-G8ML88KDRS');
   </script>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="theme-color" content="#0b0b12" />
   <meta name="description" content="Descarga videos de TikTok o guarda su audio en MP3. Pega un enlace para preparar tu archivo." />
-  <title>TikTokSMA — Descargador de videos</title>
+  <title>ClipSMA — Descargador de videos</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet" />
+  <link rel="icon" type="image/png" href="/images/ClipSMAIcon.png" />
   <link rel="stylesheet" href="styles/main.css" />
 </head>
 <body>
   <main class="page-shell">
     <header class="site-header">
-      <a class="brand" href="/" aria-label="TikTokSMA, inicio">
-        <span class="brand-mark" aria-hidden="true">S</span>
-        <span>TikTok<span class="brand-accent">SMA</span></span>
+      <a class="brand" href="/" aria-label="ClipSMA, inicio">
+        <img class="brand-logo" src="/images/LogoClipSMA.png" alt="ClipSMA" />
       </a>
       <span class="header-note"><span class="status-dot" aria-hidden="true"></span> Descarga sencilla y rápida</span>
     </header>
@@ -68,7 +68,7 @@
     </section>
 
     <footer class="site-footer">
-      <span>© <span id="year"></span> TikTokSMA</span>
+      <span>© <span id="year"></span> ClipSMA</span>
       <span>Hecho para que guardar sea más fácil.</span>
     </footer>
   </main>
@@ -190,7 +190,7 @@
         audioStatus.setAttribute('role', 'status');
 
         downloadLink.addEventListener('click', () => {
-          downloadMedia(data.videoUrl, 'TikTokSMA.mp4', downloadLink, audioStatus);
+          downloadMedia(data.videoUrl, 'ClipSMA.mp4', downloadLink, audioStatus);
         });
 
         if (data.audioUrl) {
@@ -199,7 +199,7 @@
           audioButton.type = 'button';
           audioButton.textContent = 'Descargar MP3';
           audioButton.addEventListener('click', () => {
-            downloadMedia(data.audioUrl, 'TikTokSMA.mp3', audioButton, audioStatus);
+            downloadMedia(data.audioUrl, 'ClipSMA.mp3', audioButton, audioStatus);
           });
           downloadOptions.append(audioButton);
         }
