@@ -19,6 +19,7 @@ if (!API_KEY) {
 
 app.use(cors());
 app.use(express.json());
+app.use('/images', express.static(path.join(__dirname, '..', 'images')));
 app.use(express.static(path.join(__dirname, '..', 'public')));
 
 app.post('/api/descargar', async (req, res) => {

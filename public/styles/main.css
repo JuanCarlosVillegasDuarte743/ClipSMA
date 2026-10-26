@@ -9,8 +9,9 @@
   -moz-osx-font-smoothing: grayscale;
   font-optical-sizing: auto;
   --muted: #a19eaf;
-  --pink: #ff4d91;
-  --cyan: #38d9ee;
+  --cyan: #36d9ed;
+  --blue: #4d79f6;
+  --purple: #a342ed;
 }
 
 * {
@@ -22,8 +23,8 @@ body {
   min-height: 100vh;
   margin: 0;
   background:
-    radial-gradient(ellipse at 50% 15%, rgba(104, 42, 112, 0.23), transparent 39rem),
-    radial-gradient(ellipse at 5% 76%, rgba(30, 109, 128, 0.12), transparent 30rem),
+    radial-gradient(ellipse at 50% 15%, rgba(112, 58, 198, 0.22), transparent 39rem),
+    radial-gradient(ellipse at 5% 76%, rgba(30, 153, 190, 0.13), transparent 30rem),
     #0b0b12;
 }
 
@@ -51,28 +52,15 @@ input {
 .brand {
   display: inline-flex;
   align-items: center;
-  gap: 10px;
-  color: #fff;
-  font-family: 'Space Grotesk', sans-serif;
-  font-size: 1.16rem;
-  font-weight: 700;
   text-decoration: none;
-  letter-spacing: -0.04em;
 }
 
-.brand-mark {
-  display: grid;
-  width: 32px;
-  height: 32px;
-  place-items: center;
-  border: 1px solid rgba(255, 255, 255, 0.28);
-  border-radius: 10px;
-  background: linear-gradient(145deg, rgba(255, 77, 145, 0.2), rgba(56, 217, 238, 0.17));
-  font-size: 1rem;
-}
-
-.brand-accent {
-  color: var(--pink);
+.brand-logo {
+  display: block;
+  width: auto;
+  max-width: 140px;
+  height: 64px;
+  object-fit: contain;
 }
 
 .header-note {
@@ -87,8 +75,8 @@ input {
   width: 7px;
   height: 7px;
   border-radius: 50%;
-  background: #67e6ac;
-  box-shadow: 0 0 12px rgba(103, 230, 172, 0.65);
+  background: var(--cyan);
+  box-shadow: 0 0 12px rgba(54, 217, 237, 0.65);
 }
 
 .hero {
@@ -106,10 +94,10 @@ input {
   align-items: center;
   gap: 8px;
   padding: 8px 13px;
-  border: 1px solid rgba(255, 77, 145, 0.25);
+  border: 1px solid rgba(77, 121, 246, 0.3);
   border-radius: 999px;
-  background: rgba(255, 77, 145, 0.07);
-  color: #ff8cb7;
+  background: rgba(77, 121, 246, 0.09);
+  color: #a9bcff;
   font-size: 0.69rem;
   font-weight: 700;
   letter-spacing: 0.13em;
@@ -126,7 +114,7 @@ input {
 }
 
 .hero h1 span {
-  background: linear-gradient(90deg, #ff5c9c 12%, #c38aff 56%, #61e1ed 100%);
+  background: linear-gradient(90deg, var(--cyan) 8%, var(--blue) 52%, var(--purple) 100%);
   background-clip: text;
   -webkit-text-fill-color: transparent;
 }
@@ -177,8 +165,8 @@ input {
 }
 
 .url-field:focus-within {
-  border-color: rgba(255, 77, 145, 0.78);
-  box-shadow: 0 0 0 3px rgba(255, 77, 145, 0.12);
+  border-color: rgba(54, 217, 237, 0.78);
+  box-shadow: 0 0 0 3px rgba(54, 217, 237, 0.12);
 }
 
 .url-field svg {
@@ -214,8 +202,8 @@ input {
   padding: 0 19px;
   border: 0;
   border-radius: 11px;
-  background: linear-gradient(105deg, #f6468b, #c24de8);
-  box-shadow: 0 7px 22px rgba(224, 66, 150, 0.2);
+  background: linear-gradient(105deg, #147fba, #5848d4 58%, #793bd0);
+  box-shadow: 0 7px 22px rgba(77, 121, 246, 0.22);
   color: white;
   font-size: 0.88rem;
   font-weight: 700;
@@ -226,7 +214,7 @@ input {
 .submit-button:hover:not(:disabled) {
   transform: translateY(-1px);
   filter: brightness(1.09);
-  box-shadow: 0 9px 28px rgba(224, 66, 150, 0.3);
+  box-shadow: 0 9px 28px rgba(121, 59, 208, 0.34);
 }
 
 .submit-button:active:not(:disabled) {
@@ -280,7 +268,7 @@ input {
   width: 19px;
   height: 19px;
   border: 2px solid rgba(255, 255, 255, 0.2);
-  border-top-color: var(--pink);
+  border-top-color: var(--cyan);
   border-radius: 50%;
   animation: spin 750ms linear infinite;
 }
@@ -316,10 +304,10 @@ input {
   justify-content: center;
   width: 100%;
   min-height: 48px;
-  border: 1px solid rgba(56, 217, 238, 0.35);
+  border: 1px solid rgba(54, 217, 237, 0.35);
   border-radius: 10px;
-  background: rgba(56, 217, 238, 0.1);
-  color: #8feaf3;
+  background: rgba(54, 217, 237, 0.1);
+  color: #8ceaf4;
   font-size: 0.9rem;
   font-weight: 700;
   text-decoration: none;
@@ -360,7 +348,7 @@ input {
 }
 
 .download-link:hover {
-  background: rgba(56, 217, 238, 0.17);
+  background: rgba(54, 217, 237, 0.17);
 }
 
 .feature-row {
@@ -381,7 +369,7 @@ input {
 }
 
 .feature-icon {
-  color: #e58be1;
+  color: #b98bfa;
   font-size: 1.1rem;
 }
 
@@ -461,14 +449,8 @@ input {
     min-height: 66px;
   }
 
-  .brand {
-    gap: 8px;
-    font-size: 1.04rem;
-  }
-
-  .brand-mark {
-    width: 29px;
-    height: 29px;
+  .brand-logo {
+    height: 52px;
   }
 
   .header-note {
