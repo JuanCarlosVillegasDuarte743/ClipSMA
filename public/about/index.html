@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="theme-color" content="#0b0b12" />
+  <meta name="description" content="Conoce qué hace ClipSMA, cómo procesa enlaces públicos de TikTok y cuáles son sus límites." />
+  <title>Acerca de ClipSMA</title>
+  <link rel="canonical" href="https://clipsma.onrender.com/about/" />
+  <link rel="icon" type="image/png" href="/images/ClipSMAIcon.png" />
+  <link rel="stylesheet" href="/styles/main.css" />
+</head>
+<body>
+  <div class="page-shell">
+    <header class="site-header">
+      <a class="brand" href="/" aria-label="ClipSMA, inicio">
+        <img class="brand-logo" src="/images/LogoClipSMA.png" alt="ClipSMA" />
+      </a>
+      <a class="header-note" href="/">Volver al inicio</a>
+    </header>
+    <main class="info-main">
+      <article class="content-card">
+        <p class="page-kicker">Información del servicio</p>
+        <h1>Acerca de ClipSMA</h1>
+        <p>ClipSMA es una herramienta web que recibe un enlace público de TikTok y solicita a un proveedor externo que procese el video. Si ese proveedor devuelve archivos disponibles, la página puede mostrar una vista previa y ofrecer opciones para guardarlos.</p>
+        <h2>Cómo funciona</h2>
+        <ol>
+          <li>El usuario pega un enlace HTTPS de TikTok en el formulario.</li>
+          <li>El servidor envía ese enlace al proveedor externo TikWM para intentar procesarlo.</li>
+          <li>Si el proveedor devuelve enlaces de medios válidos, el navegador muestra el video y las opciones de descarga que estén disponibles.</li>
+        </ol>
+        <h2>Límites importantes</h2>
+        <p>ClipSMA no inicia sesión en TikTok, no verifica la titularidad de un video ni puede comprobar si el usuario tiene permiso para descargarlo, editarlo o compartirlo. El funcionamiento y la disponibilidad dependen de TikTok, del proveedor externo y del acceso al video. No se garantiza la calidad, la disponibilidad ni que todos los enlaces funcionen.</p>
+        <p>Usa el servicio solo con contenido propio o con autorización suficiente. Una opción de descarga disponible no implica que su uso esté permitido.</p>
+        <h2>Relación con TikTok</h2>
+        <p>ClipSMA es un servicio independiente y no está afiliado, patrocinado ni aprobado por TikTok. TikTok y sus marcas pertenecen a sus respectivos titulares. Para consultar las condiciones de la plataforma, visita los <a href="https://www.tiktok.com/legal/page/row/terms-of-service/en" rel="noopener noreferrer" target="_blank">Términos de servicio de TikTok</a>.</p>
+        <p>Si tienes preguntas, visita la <a href="/contact/">página de contacto</a>.</p>
+      </article>
+    </main>
+    <footer class="site-footer">
+      <span>© <span class="current-year"></span> ClipSMA</span>
+      <nav class="footer-links" aria-label="Información del sitio">
+        <a href="/about/">Acerca de</a><a href="/contact/">Contacto</a><a href="/terms/">Términos</a><a href="/privacy/">Privacidad</a>
+      </nav>
+    </footer>
+  </div>
+  <script>document.querySelector('.current-year').textContent = new Date().getFullYear();</script>
+</body>
+</html>
