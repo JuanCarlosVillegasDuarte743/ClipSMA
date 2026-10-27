@@ -64,6 +64,29 @@ function isHttpsUrl(value) {
   }
 }
 
+function getProviderError(error) {
+  if (!axios.isAxiosError(error)) {
+    const message = error instanceof Error ? error.message : String(error);
+    return `Error inesperado al contactar con TikWM: ${message}`;
+  }
+
+  const status = error.response?.status;
+  const responseData = error.response?.data;
+  const providerMessage = typeof responseData === 'string'
+    ? responseData
+    : responseData?.msg || responseData?.message || responseData?.error;
+  const detail = typeof providerMessage === 'string'
+    ? providerMessage.replace(/[\u0000-\u001f\u007f]/g, ' ').trim().slice(0, 300)
+    : '';
+
+  if (status) {
+    return `TikWM respondió HTTP ${status}${detail ? `: ${detail}` : '.'}`;
+  }
+
+  const code = typeof error.code === 'string' ? error.code : 'ERROR_DESCONOCIDO';
+  return `Error de conexión con TikWM (${code}): ${error.message}`;
+}
+
 function limitDownloadRequests(req, res, next) {
   const now = Date.now();
   const clientIp = req.ip || req.socket.remoteAddress || 'unknown';
@@ -113,7 +136,7 @@ app.post('/api/descargar', limitDownloadRequests, async (req, res) => {
   }
 
   try {
-    const response = await axios.get('https://tikwm.com/api', {
+    const response = await axios.get('https://tikwm.com/api/', {
       params: {
         url,
         hd: 1,
@@ -127,8 +150,15 @@ app.post('/api/descargar', limitDownloadRequests, async (req, res) => {
 
     const data = response.data;
 
-    if (data?.code !== 0 || !data.data || typeof data.data !== 'object') {
-      return res.status(400).json({ error: 'El proveedor no pudo procesar este video.' });
+    if (data?.code !== 0) {
+      const providerMessage = typeof data?.msg === 'string' ? data.msg.trim().slice(0, 300) : '';
+      return res.status(400).json({
+        error: providerMessage || 'TikWM rechazó la solicitud sin proporcionar un mensaje.'
+      });
+    }
+
+    if (!data.data || typeof data.data !== 'object') {
+      return res.status(502).json({ error: 'TikWM respondió sin datos del video.' });
     }
 
     const videoUrl = data.data.play || data.data.play_hd;
@@ -142,9 +172,10 @@ app.post('/api/descargar', limitDownloadRequests, async (req, res) => {
       audioUrl
     });
 
-  } catch {
-    console.error('Error al contactar con el proveedor de procesamiento de videos.');
-    return res.status(502).json({ error: 'No se pudo completar la solicitud. Inténtalo más tarde.' });
+  } catch (error) {
+    const message = getProviderError(error);
+    console.error(message);
+    return res.status(502).json({ error: message });
   }
 });
 
@@ -171,4 +202,4 @@ if (require.main === module) {
   });
 }
 
-module.exports = { app, isHttpsUrl, isTikTokUrl };
+module.exports = { app, getProviderError, isHttpsUrl, isTikTokUrl };

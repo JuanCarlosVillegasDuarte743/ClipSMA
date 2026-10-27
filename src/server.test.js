@@ -1,4 +1,7 @@
 const assert = require('node:assert/strict');
+const axios = require('axios');
+const fs = require('node:fs');
+const path = require('node:path');
 const test = require('node:test');
 
 process.env.TIKWM_API_KEY = process.env.TIKWM_API_KEY || 'test-key';
@@ -64,6 +67,76 @@ test('rejects non-TikTok links without contacting the external API', async () =>
     assert.equal(response.status, 400);
     assert.deepEqual(await response.json(), { error: 'Introduce un enlace HTTPS válido de TikTok.' });
   });
+});
+
+test('uses TikWM HTTPS API endpoint that does not redirect to HTTP', async () => {
+  const originalGet = axios.get;
+  let requestUrl;
+  let requestConfig;
+  axios.get = async (url, config) => {
+    requestUrl = url;
+    requestConfig = config;
+    return {
+      data: {
+        code: 0,
+        data: {
+          play: 'https://cdn.example/video.mp4',
+          music: null
+        }
+      }
+    };
+  };
+
+  try {
+    await withServer(async (baseUrl) => {
+      const response = await fetch(`${baseUrl}/api/descargar`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ url: 'https://www.tiktok.com/@creator/video/123' })
+      });
+
+      assert.equal(response.status, 200);
+      assert.deepEqual(await response.json(), {
+        videoUrl: 'https://cdn.example/video.mp4',
+        audioUrl: null
+      });
+      assert.equal(requestUrl, 'https://tikwm.com/api/');
+      assert.equal(requestConfig.maxRedirects, 0);
+    });
+  } finally {
+    axios.get = originalGet;
+  }
+});
+
+test('returns the exact HTTP and message error provided by TikWM', async () => {
+  const originalGet = axios.get;
+  axios.get = async () => {
+    const error = new Error('Request failed with status code 403');
+    error.isAxiosError = true;
+    error.code = 'ERR_BAD_REQUEST';
+    error.response = {
+      status: 403,
+      data: 'Forbidden.',
+      headers: {},
+      config: {}
+    };
+    throw error;
+  };
+
+  try {
+    await withServer(async (baseUrl) => {
+      const response = await fetch(`${baseUrl}/api/descargar`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ url: 'https://www.tiktok.com/@creator/video/123' })
+      });
+
+      assert.equal(response.status, 502);
+      assert.deepEqual(await response.json(), { error: 'TikWM respondió HTTP 403: Forbidden.' });
+    });
+  } finally {
+    axios.get = originalGet;
+  }
 });
 
 test('limits repeated requests from the same forwarded client IP', async () => {

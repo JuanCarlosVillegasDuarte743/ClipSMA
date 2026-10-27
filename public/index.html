@@ -25,14 +25,14 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet" />
-  <link rel="icon" type="image/png" href="/images/ClipSMAIcon.png" />
+  <link rel="icon" type="image/png" href="../images/ClipSMAIcon.png" />
   <link rel="stylesheet" href="styles/main.css" />
 </head>
 <body>
   <div class="page-shell">
     <header class="site-header">
-      <a class="brand" href="/" aria-label="ClipSMA, inicio">
-        <img class="brand-logo" src="/images/LogoClipSMA.png" alt="ClipSMA" />
+      <a class="brand" href="index.html" aria-label="ClipSMA, inicio">
+        <img class="brand-logo" src="../images/LogoClipSMA.png" alt="ClipSMA" />
       </a>
       <span class="header-note"><span class="status-dot" aria-hidden="true"></span> Descarga sencilla y rápida</span>
     </header>
@@ -87,7 +87,7 @@
       <div class="guide-section">
         <h2>Uso responsable y privacidad</h2>
         <p>ClipSMA no comprueba quién posee un video ni si quien lo solicita tiene permiso para descargarlo. Usa la herramienta solo con contenido propio o para el que tengas autorización. Descargar o compartir contenido puede estar sujeto a derechos de autor y a las condiciones de TikTok.</p>
-        <p>El enlace que envías se procesa mediante un servicio externo. No pegues enlaces privados ni compartas datos personales. Consulta nuestra <a href="/privacy/">política de privacidad</a> para conocer el uso de servicios externos, cookies y publicidad.</p>
+        <p>El enlace que envías se procesa mediante un servicio externo. No pegues enlaces privados ni compartas datos personales. Consulta nuestra <a href="privacy/index.html">política de privacidad</a> para conocer el uso de servicios externos, cookies y publicidad.</p>
       </div>
       <div class="guide-section" aria-labelledby="faq-title">
         <h2 id="faq-title">Preguntas frecuentes</h2>
@@ -110,10 +110,10 @@
     <footer class="site-footer">
       <span>© <span id="year"></span> ClipSMA</span>
       <nav class="footer-links" aria-label="Información del sitio">
-        <a href="/about/">Acerca de</a>
-        <a href="/contact/">Contacto</a>
-        <a href="/terms/">Términos</a>
-        <a href="/privacy/">Privacidad</a>
+        <a href="about/index.html">Acerca de</a>
+        <a href="contact/index.html">Contacto</a>
+        <a href="terms/index.html">Términos</a>
+        <a href="privacy/index.html">Privacidad</a>
       </nav>
     </footer>
   </div>
@@ -180,6 +180,11 @@
         return;
       }
 
+      if (window.location.protocol === 'file:') {
+        showMessage('Esta herramienta necesita el servidor de ClipSMA. Inicia la aplicación con “npm start” y ábrela desde http://localhost:3000.', 'error-msg');
+        return;
+      }
+
       activeBlobUrls.forEach((blobUrl) => URL.revokeObjectURL(blobUrl));
       activeBlobUrls = [];
 
@@ -193,10 +198,21 @@
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ url })
         });
-        const data = await response.json();
+        const contentType = response.headers.get('content-type') || '';
+        const responseBody = await response.text();
+        let data;
+        if (contentType.toLowerCase().includes('application/json')) {
+          try {
+            data = JSON.parse(responseBody);
+          } catch {
+            throw new Error(responseBody || `El servidor devolvió JSON inválido (HTTP ${response.status}).`);
+          }
+        } else {
+          throw new Error(responseBody.trim() || `El servidor respondió HTTP ${response.status} sin indicar el error.`);
+        }
 
         if (!response.ok || !data.videoUrl) {
-          throw new Error(data.error || 'No se pudo procesar el enlace. Comprueba que sea válido e inténtalo de nuevo.');
+          throw new Error(data.error || `El servidor respondió HTTP ${response.status} sin indicar el error.`);
         }
 
         const parsedVideoUrl = new URL(data.videoUrl);
