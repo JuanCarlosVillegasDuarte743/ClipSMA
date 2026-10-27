@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="theme-color" content="#0b0b12" />
+  <meta name="description" content="Aprende a procesar un enlace con ClipSMA, entiende qué opciones dependen de TikWM y resuelve errores habituales." />
+  <title>Guía de uso y solución de problemas — ClipSMA</title>
+  <link rel="canonical" href="https://clipsma.onrender.com/guias/usar-clipsma/" />
+  <meta property="og:type" content="article" />
+  <meta property="og:title" content="Guía de uso y solución de problemas — ClipSMA" />
+  <meta property="og:description" content="Pasos para procesar enlaces en ClipSMA, límites del servicio y comprobaciones útiles si algo falla." />
+  <meta property="og:url" content="https://clipsma.onrender.com/guias/usar-clipsma/" />
+  <meta property="og:image" content="https://clipsma.onrender.com/images/LogoClipSMA.png" />
+  <link rel="icon" type="image/png" href="/images/ClipSMAIcon.png" />
+  <link rel="stylesheet" href="../../styles/main.css" />
+</head>
+<body>
+  <div class="page-shell">
+    <header class="site-header">
+      <a class="brand" href="../../index.html" aria-label="ClipSMA, inicio">
+        <img class="brand-logo" src="/images/LogoClipSMA.png" alt="ClipSMA" />
+      </a>
+      <a class="header-note" href="../../index.html">Volver a ClipSMA</a>
+    </header>
+    <main class="info-main">
+      <article class="content-card">
+        <p class="page-kicker">Guía práctica</p>
+        <h1>Cómo usar ClipSMA y resolver problemas comunes</h1>
+        <p>ClipSMA envía un enlace HTTPS de TikTok a TikWM para solicitar el procesamiento. Si el proveedor devuelve una dirección válida, ClipSMA muestra una vista previa del video y ofrece guardarlo; si devuelve una pista de audio, también aparece una opción MP3. El proveedor puede no procesar todos los enlaces y el sitio no puede garantizar disponibilidad ni resultados.</p>
+
+        <h2>Antes de empezar</h2>
+        <ul>
+          <li>Usa un enlace HTTPS cuyo dominio sea tiktok.com, www.tiktok.com, m.tiktok.com, vm.tiktok.com o vt.tiktok.com. El servidor valida el dominio y el protocolo, pero eso no confirma que el video pueda procesarse.</li>
+          <li>Comprueba que el enlace corresponda al contenido que quieres solicitar y que el video siga disponible en TikTok.</li>
+          <li>Usa solo contenido propio o para el que tengas permiso. ClipSMA no verifica autoría, licencias ni derechos.</li>
+          <li>El enlace se envía al servidor de ClipSMA y a TikWM. No pegues enlaces privados ni información personal.</li>
+        </ul>
+
+        <h2>Pasos para procesar un enlace</h2>
+        <ol>
+          <li>Abre la <a href="../../index.html">página principal de ClipSMA</a> y copia el enlace del video desde TikTok.</li>
+          <li>Pega o escribe el enlace en el campo. El botón “Pegar” usa la función de portapapeles del navegador; si no está disponible o el navegador deniega el permiso, pega el texto manualmente.</li>
+          <li>Selecciona “Analizar video”. La solicitud se procesa en el servidor y se envía a TikWM; espera el mensaje de resultado antes de volver a enviar el formulario.</li>
+          <li>Si aparece una vista previa, comprueba el resultado y usa la opción de video. El botón MP3 solo aparece cuando TikWM proporciona una dirección de audio.</li>
+        </ol>
+        <p>El navegador obtiene los archivos desde las direcciones HTTPS devueltas por el proveedor. La disponibilidad de esos archivos también puede depender del proveedor y del servidor donde estén alojados.</p>
+
+        <h2>Si el análisis no funciona</h2>
+        <ul>
+          <li><strong>Enlace no válido:</strong> confirma que comienza con HTTPS y usa uno de los dominios admitidos indicados arriba. No incluyas espacios ni texto adicional alrededor del enlace.</li>
+          <li><strong>El proveedor rechaza la solicitud o no encuentra el video:</strong> vuelve a comprobar que el video siga disponible en TikTok. Un enlace aceptado por ClipSMA no garantiza que TikWM pueda procesarlo; inténtalo más tarde si parece ser un problema temporal.</li>
+          <li><strong>Error de conexión:</strong> revisa la conexión y vuelve a intentar más tarde. ClipSMA depende de servicios externos y no puede corregir una interrupción de TikTok, TikWM o del alojamiento de los medios.</li>
+          <li><strong>No aparece MP3:</strong> el proveedor no devolvió una dirección de audio para esa solicitud; la interfaz no puede crear esa opción por sí sola.</li>
+          <li><strong>El archivo no se obtiene:</strong> vuelve a intentar la descarga si el resultado sigue disponible. El navegador debe poder conectar con el servidor externo que aloja el archivo.</li>
+        </ul>
+
+        <h2>Uso responsable y privacidad</h2>
+        <p>La posibilidad técnica de obtener un archivo no concede permiso para conservarlo, modificarlo o compartirlo. Respeta los derechos de autor, la privacidad, la imagen de las personas y las condiciones aplicables de TikTok. ClipSMA no está afiliado, patrocinado ni aprobado por TikTok.</p>
+        <p>ClipSMA no ofrece cuentas ni un historial persistente de enlaces. Para conocer el tratamiento de datos técnicos, cookies, publicidad y servicios externos, consulta la <a href="../../privacy/index.html">política de privacidad</a>. Si necesitas ayuda, visita <a href="../../contact/index.html">Contacto</a>.</p>
+      </article>
+    </main>
+    <footer class="site-footer">
+      <span>© <span class="current-year"></span> ClipSMA</span>
+      <nav class="footer-links" aria-label="Información del sitio">
+        <a href="../../about/index.html">Acerca de</a>
+        <a href="../../contact/index.html">Contacto</a>
+        <a href="../../terms/index.html">Términos</a>
+        <a href="../../privacy/index.html">Privacidad</a>
+      </nav>
+    </footer>
+  </div>
+  <script>document.querySelector('.current-year').textContent = new Date().getFullYear();</script>
+</body>
+</html>

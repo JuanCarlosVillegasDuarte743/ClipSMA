@@ -40,7 +40,7 @@ test('only accepts HTTPS media URLs without embedded credentials', () => {
 
 test('serves the informational pages, robots.txt, and sitemap', async () => {
   await withServer(async (baseUrl) => {
-    for (const route of ['/about/', '/contact/', '/privacy/', '/terms/', '/robots.txt', '/sitemap.xml']) {
+    for (const route of ['/about/', '/contact/', '/privacy/', '/terms/', '/guias/usar-clipsma/', '/robots.txt', '/sitemap.xml']) {
       const response = await fetch(`${baseUrl}${route}`);
       assert.equal(response.status, 200, `${route} should be available`);
     }
@@ -61,8 +61,28 @@ test('serves the informational pages, robots.txt, and sitemap', async () => {
     assert.match(homeHtml, /navigator\.clipboard\?\.readText/);
     assert.match(homeHtml, /href="#guide-title">Cómo funciona/);
     assert.match(homeHtml, /href="#faq-title">Preguntas frecuentes/);
+    assert.match(homeHtml, /TikWM/);
     assert.doesNotMatch(homeHtml, /preview-card|VISTA PREVIA DE EJEMPLO/);
     assert.doesNotMatch(homeHtml, /class="header-note"/);
+
+    const guide = await fetch(`${baseUrl}/guias/usar-clipsma/`);
+    const guideHtml = await guide.text();
+    assert.match(guideHtml, /Cómo usar ClipSMA y resolver problemas comunes/);
+    assert.equal(guideHtml.includes('adsbygoogle.js'), false);
+
+    const notFound = await fetch(`${baseUrl}/ruta-inexistente`);
+    assert.equal(notFound.status, 404);
+    const notFoundHtml = await notFound.text();
+    assert.match(notFoundHtml, /name="robots" content="noindex, nofollow"/);
+    assert.equal(notFoundHtml.includes('adsbygoogle.js'), false);
+
+    const sitemap = await (await fetch(`${baseUrl}/sitemap.xml`)).text();
+    assert.match(sitemap, /https:\/\/clipsma\.onrender\.com\/guias\/usar-clipsma\//);
+    assert.doesNotMatch(sitemap, /404\.html/);
+
+    const missingApiRoute = await fetch(`${baseUrl}/api/no-existe`);
+    assert.equal(missingApiRoute.status, 404);
+    assert.deepEqual(await missingApiRoute.json(), { error: 'La ruta solicitada no existe.' });
   });
 });
 
@@ -73,7 +93,9 @@ test('all internal page links resolve from local HTML files', () => {
     'about/index.html',
     'contact/index.html',
     'privacy/index.html',
-    'terms/index.html'
+    'terms/index.html',
+    'guias/usar-clipsma/index.html',
+    '404.html'
   ];
 
   for (const file of htmlFiles) {
@@ -89,6 +111,40 @@ test('all internal page links resolve from local HTML files', () => {
       const target = path.resolve(path.dirname(filePath), href.split('#')[0]);
       assert.ok(fs.existsSync(target), `${file} has a broken local link: ${href}`);
     }
+  }
+});
+
+test('indexable pages have unique titles, descriptions, canonicals, and one main heading', () => {
+  const publicDir = path.join(__dirname, '..', 'public');
+  const htmlFiles = [
+    'index.html',
+    'about/index.html',
+    'contact/index.html',
+    'privacy/index.html',
+    'terms/index.html',
+    'guias/usar-clipsma/index.html'
+  ];
+  const titles = new Set();
+  const descriptions = new Set();
+  const canonicals = new Set();
+
+  for (const file of htmlFiles) {
+    const html = fs.readFileSync(path.join(publicDir, file), 'utf8');
+    const title = html.match(/<title>(.*?)<\/title>/i)?.[1];
+    const description = html.match(/<meta name="description" content="([^"]+)"/i)?.[1];
+    const canonical = html.match(/<link rel="canonical" href="([^"]+)"/i)?.[1];
+    const headings = html.match(/<h1(?:\s[^>]*)?>/gi) || [];
+
+    assert.ok(title, `${file} should have a title`);
+    assert.ok(description, `${file} should have a meta description`);
+    assert.ok(canonical, `${file} should have a canonical URL`);
+    assert.equal(headings.length, 1, `${file} should have one main heading`);
+    assert.equal(titles.has(title), false, `${file} should have a unique title`);
+    assert.equal(descriptions.has(description), false, `${file} should have a unique description`);
+    assert.equal(canonicals.has(canonical), false, `${file} should have a unique canonical URL`);
+    titles.add(title);
+    descriptions.add(description);
+    canonicals.add(canonical);
   }
 });
 

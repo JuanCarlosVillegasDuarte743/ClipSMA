@@ -82,6 +82,20 @@ textarea {
   text-decoration: underline;
 }
 
+.header-note {
+  color: #aaa7b5;
+  font-size: 0.82rem;
+  font-weight: 600;
+  text-decoration: none;
+  text-underline-offset: 4px;
+  transition: color 160ms ease;
+}
+
+.header-note:hover {
+  color: #c5bbff;
+  text-decoration: underline;
+}
+
 .hero {
   display: flex;
   flex: 1;
@@ -257,7 +271,8 @@ textarea {
 .download-link:focus-visible,
 .brand:focus-visible,
 .paste-button:focus-visible,
-.header-links a:focus-visible {
+.header-links a:focus-visible,
+.header-note:focus-visible {
   outline: 3px solid var(--accent);
   outline-offset: 3px;
 }
@@ -695,6 +710,10 @@ textarea {
 
   .header-links {
     gap: 12px;
+    flex-wrap: wrap;
+    justify-content: flex-end;
+    max-width: 180px;
+    row-gap: 6px;
   }
 
   .header-links a {

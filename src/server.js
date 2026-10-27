@@ -196,6 +196,14 @@ app.use((err, req, res, next) => {
   return res.status(500).json({ error: 'Ocurrió un error interno. Inténtalo más tarde.' });
 });
 
+app.use((req, res) => {
+  if (req.path === '/api' || req.path.startsWith('/api/')) {
+    return res.status(404).json({ error: 'La ruta solicitada no existe.' });
+  }
+
+  return res.status(404).sendFile(path.join(__dirname, '..', 'public', '404.html'));
+});
+
 if (require.main === module) {
   app.listen(PORT, () => {
     console.log(`Servidor activo en el puerto ${PORT}`);
