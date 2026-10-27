@@ -57,6 +57,12 @@ test('serves the informational pages, robots.txt, and sitemap', async () => {
     assert.match(homeHtml, /contentType\.toLowerCase\(\)\.includes\('application\/json'\)/);
     assert.match(homeHtml, /const responseBody = await response\.text\(\)/);
     assert.match(homeHtml, /data = JSON\.parse\(responseBody\)/);
+    assert.match(homeHtml, /id="pasteButton" type="button"/);
+    assert.match(homeHtml, /navigator\.clipboard\?\.readText/);
+    assert.match(homeHtml, /href="#guide-title">Cómo funciona/);
+    assert.match(homeHtml, /href="#faq-title">Preguntas frecuentes/);
+    assert.doesNotMatch(homeHtml, /preview-card|VISTA PREVIA DE EJEMPLO/);
+    assert.doesNotMatch(homeHtml, /class="header-note"/);
   });
 });
 

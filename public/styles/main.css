@@ -8,10 +8,8 @@
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   font-optical-sizing: auto;
-  --muted: #a19eaf;
-  --cyan: #36d9ed;
-  --blue: #4d79f6;
-  --purple: #a342ed;
+  --muted: #c0bdca;
+  --accent: #a99cff;
 }
 
 * {
@@ -23,8 +21,7 @@ body {
   min-height: 100vh;
   margin: 0;
   background:
-    radial-gradient(ellipse at 50% 15%, rgba(112, 58, 198, 0.22), transparent 39rem),
-    radial-gradient(ellipse at 5% 76%, rgba(30, 153, 190, 0.13), transparent 30rem),
+    radial-gradient(ellipse at 50% 12%, rgba(103, 87, 190, 0.19), transparent 42rem),
     #0b0b12;
 }
 
@@ -65,20 +62,24 @@ textarea {
   object-fit: contain;
 }
 
-.header-note {
+.header-links {
   display: flex;
   align-items: center;
-  gap: 9px;
-  color: #c0bdca;
-  font-size: 0.82rem;
+  gap: clamp(16px, 3vw, 32px);
 }
 
-.status-dot {
-  width: 7px;
-  height: 7px;
-  border-radius: 50%;
-  background: var(--cyan);
-  box-shadow: 0 0 12px rgba(54, 217, 237, 0.65);
+.header-links a {
+  color: #c7c3d2;
+  font-size: 0.82rem;
+  font-weight: 600;
+  text-decoration: none;
+  text-underline-offset: 4px;
+  transition: color 160ms ease;
+}
+
+.header-links a:hover {
+  color: #c5bbff;
+  text-decoration: underline;
 }
 
 .hero {
@@ -116,7 +117,7 @@ textarea {
 }
 
 .hero h1 span {
-  background: linear-gradient(90deg, var(--cyan) 8%, var(--blue) 52%, var(--purple) 100%);
+  background: linear-gradient(100deg, #c0b5ff 0%, #9386ef 100%);
   background-clip: text;
   -webkit-text-fill-color: transparent;
 }
@@ -130,22 +131,22 @@ textarea {
 }
 
 .download-card {
-  width: min(100%, 760px);
-  margin-top: 36px;
-  padding: 28px;
-  border: 1px solid rgba(255, 255, 255, 0.11);
-  border-radius: 20px;
-  background: linear-gradient(145deg, rgba(28, 27, 39, 0.94), rgba(18, 18, 27, 0.94));
-  box-shadow: 0 26px 80px rgba(0, 0, 0, 0.32), 0 1px 0 rgba(255, 255, 255, 0.04) inset;
+  width: min(100%, 820px);
+  margin-top: 38px;
+  padding: clamp(22px, 4vw, 36px);
+  border: 1px solid rgba(173, 158, 255, 0.3);
+  border-radius: 22px;
+  background: linear-gradient(145deg, rgba(35, 32, 52, 0.98), rgba(19, 19, 29, 0.98));
+  box-shadow: 0 30px 90px rgba(0, 0, 0, 0.4), 0 1px 0 rgba(255, 255, 255, 0.07) inset, 0 0 42px rgba(112, 91, 210, 0.1);
   text-align: left;
 }
 
 .download-card label {
   display: block;
   margin-bottom: 11px;
-  color: #e8e6ef;
-  font-size: 0.86rem;
-  font-weight: 600;
+  color: #f0eef6;
+  font-size: 0.96rem;
+  font-weight: 700;
 }
 
 .input-row {
@@ -158,17 +159,18 @@ textarea {
   flex: 1;
   align-items: center;
   min-width: 0;
-  gap: 11px;
-  padding: 0 15px;
-  border: 1px solid #373542;
-  border-radius: 11px;
+  gap: 13px;
+  padding: 0 17px;
+  border: 1px solid #454154;
+  border-radius: 13px;
   background: #111119;
+  box-shadow: 0 5px 16px rgba(0, 0, 0, 0.18) inset;
   transition: border-color 160ms ease, box-shadow 160ms ease;
 }
 
 .url-field:focus-within {
-  border-color: rgba(54, 217, 237, 0.78);
-  box-shadow: 0 0 0 3px rgba(54, 217, 237, 0.12);
+  border-color: rgba(169, 156, 255, 0.9);
+  box-shadow: 0 0 0 4px rgba(145, 128, 235, 0.16), 0 5px 16px rgba(0, 0, 0, 0.18) inset;
 }
 
 .url-field svg {
@@ -180,18 +182,46 @@ textarea {
 .url-field input {
   width: 100%;
   min-width: 0;
-  height: 52px;
+  height: 62px;
   padding: 0;
   border: 0;
   outline: 0;
   background: transparent;
   color: #f8f7fb;
-  font-size: 0.9rem;
+  font-size: 0.97rem;
 }
 
 .url-field input::placeholder {
-  color: #777383;
+  color: #a09bad;
   opacity: 1;
+}
+
+.paste-button {
+  display: inline-flex;
+  flex: 0 0 auto;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  min-height: 36px;
+  padding: 0 11px;
+  border: 1px solid rgba(169, 156, 255, 0.28);
+  border-radius: 9px;
+  background: rgba(143, 126, 223, 0.12);
+  color: #c5bbff;
+  font-size: 0.78rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: background 160ms ease, border-color 160ms ease;
+}
+
+.paste-button:hover {
+  border-color: rgba(169, 156, 255, 0.58);
+  background: rgba(143, 126, 223, 0.22);
+}
+
+.paste-button svg {
+  width: 16px;
+  height: 16px;
 }
 
 .submit-button {
@@ -200,12 +230,12 @@ textarea {
   justify-content: center;
   flex: 0 0 auto;
   gap: 10px;
-  min-height: 52px;
-  padding: 0 19px;
+  min-height: 60px;
+  padding: 0 22px;
   border: 0;
   border-radius: 11px;
-  background: linear-gradient(105deg, #147fba, #5848d4 58%, #793bd0);
-  box-shadow: 0 7px 22px rgba(77, 121, 246, 0.22);
+  background: linear-gradient(105deg, #7063ca, #8173dc);
+  box-shadow: 0 8px 24px rgba(112, 99, 202, 0.28);
   color: white;
   font-size: 0.88rem;
   font-weight: 700;
@@ -216,7 +246,7 @@ textarea {
 .submit-button:hover:not(:disabled) {
   transform: translateY(-1px);
   filter: brightness(1.09);
-  box-shadow: 0 9px 28px rgba(121, 59, 208, 0.34);
+  box-shadow: 0 10px 30px rgba(130, 113, 220, 0.38);
 }
 
 .submit-button:active:not(:disabled) {
@@ -225,8 +255,10 @@ textarea {
 
 .submit-button:focus-visible,
 .download-link:focus-visible,
-.brand:focus-visible {
-  outline: 3px solid var(--cyan);
+.brand:focus-visible,
+.paste-button:focus-visible,
+.header-links a:focus-visible {
+  outline: 3px solid var(--accent);
   outline-offset: 3px;
 }
 
@@ -242,8 +274,19 @@ textarea {
 
 .input-hint {
   margin: 11px 0 0;
-  color: #898697;
+  color: #b4b0bf;
   font-size: 0.76rem;
+  line-height: 1.5;
+}
+
+.paste-status:empty {
+  display: none;
+}
+
+.paste-status {
+  margin: 8px 0 0;
+  color: #c5bbff;
+  font-size: 0.78rem;
   line-height: 1.5;
 }
 
@@ -270,7 +313,7 @@ textarea {
   width: 19px;
   height: 19px;
   border: 2px solid rgba(255, 255, 255, 0.2);
-  border-top-color: var(--cyan);
+  border-top-color: var(--accent);
   border-radius: 50%;
   animation: spin 750ms linear infinite;
 }
@@ -306,10 +349,10 @@ textarea {
   justify-content: center;
   width: 100%;
   min-height: 48px;
-  border: 1px solid rgba(54, 217, 237, 0.35);
+  border: 1px solid rgba(169, 156, 255, 0.38);
   border-radius: 10px;
-  background: rgba(54, 217, 237, 0.1);
-  color: #8ceaf4;
+  background: rgba(143, 126, 223, 0.13);
+  color: #c5bbff;
   font-size: 0.9rem;
   font-weight: 700;
   text-decoration: none;
@@ -350,7 +393,7 @@ textarea {
 }
 
 .download-link:hover {
-  background: rgba(54, 217, 237, 0.17);
+  background: rgba(143, 126, 223, 0.22);
 }
 
 .feature-row {
@@ -384,7 +427,7 @@ textarea {
 .fine-print {
   max-width: 540px;
   margin: 27px 0 0;
-  color: #777483;
+  color: #aaa6b5;
   font-size: 0.72rem;
   line-height: 1.6;
 }
@@ -397,7 +440,7 @@ textarea {
   gap: 14px 24px;
   min-height: 66px;
   border-top: 1px solid rgba(255, 255, 255, 0.08);
-  color: #777483;
+  color: #aaa6b5;
   font-size: 0.73rem;
 }
 
@@ -416,7 +459,7 @@ textarea {
 .footer-links a,
 .content-card a,
 .home-guide a {
-  color: #8ceaf4;
+  color: #c5bbff;
   text-underline-offset: 3px;
 }
 
@@ -506,7 +549,7 @@ textarea {
 
 .page-kicker {
   margin: 0 0 8px;
-  color: #8ceaf4;
+  color: #c5bbff;
   font-size: 0.73rem;
   font-weight: 700;
   letter-spacing: 0.1em;
@@ -570,10 +613,11 @@ textarea {
 
 .contact-form select:focus-visible,
 .contact-form textarea:focus-visible,
+.header-links a:focus-visible,
 .footer-links a:focus-visible,
 .content-card a:focus-visible,
 .home-guide a:focus-visible {
-  outline: 3px solid var(--cyan);
+  outline: 3px solid var(--accent);
   outline-offset: 3px;
 }
 
@@ -605,8 +649,8 @@ textarea {
     min-height: 72px;
   }
 
-  .header-note {
-    font-size: 0.72rem;
+  .header-links a {
+    font-size: 0.75rem;
   }
 
   .hero {
@@ -645,12 +689,16 @@ textarea {
   }
 
   .brand-logo {
-    height: 52px;
+    max-width: 106px;
+    height: 48px;
   }
 
-  .header-note {
-    gap: 7px;
-    font-size: 0.67rem;
+  .header-links {
+    gap: 12px;
+  }
+
+  .header-links a {
+    font-size: 0.68rem;
   }
 
   .hero {
@@ -677,6 +725,11 @@ textarea {
     border-radius: 16px;
   }
 
+  .url-field input {
+    height: 54px;
+    font-size: 0.82rem;
+  }
+
   .download-options {
     grid-template-columns: 1fr;
   }
@@ -688,11 +741,6 @@ textarea {
   .input-row {
     flex-direction: column;
     gap: 10px;
-  }
-
-  .url-field input {
-    height: 50px;
-    font-size: 0.83rem;
   }
 
   .submit-button {
@@ -719,7 +767,7 @@ textarea {
   .fine-print {
     max-width: 360px;
     margin-top: 23px;
-    font-size: 0.68rem;
+    font-size: 0.72rem;
   }
 
   .site-footer {
@@ -755,7 +803,11 @@ textarea {
     width: calc(100% - 24px);
   }
 
-  .header-note {
+  .header-links {
+    gap: 8px;
+  }
+
+  .header-links a {
     font-size: 0.62rem;
   }
 

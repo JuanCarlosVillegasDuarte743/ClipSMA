@@ -34,7 +34,10 @@
       <a class="brand" href="index.html" aria-label="ClipSMA, inicio">
         <img class="brand-logo" src="../images/LogoClipSMA.png" alt="ClipSMA" />
       </a>
-      <span class="header-note"><span class="status-dot" aria-hidden="true"></span> Descarga sencilla y rápida</span>
+      <nav class="header-links" aria-label="Navegación rápida">
+        <a href="#guide-title">Cómo funciona</a>
+        <a href="#faq-title">Preguntas frecuentes</a>
+      </nav>
     </header>
 
     <main class="home-main">
@@ -51,6 +54,12 @@
                 <path d="M10 13.5a4.5 4.5 0 0 0 6.36 0l3-3A4.5 4.5 0 0 0 13 4.14l-1.72 1.72M14 10.5a4.5 4.5 0 0 0-6.36 0l-3 3A4.5 4.5 0 0 0 11 19.86l1.72-1.72" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" />
               </svg>
               <input type="url" id="url" name="url" placeholder="https://www.tiktok.com/@usuario/video/..." autocomplete="url" aria-describedby="url-hint" required />
+              <button class="paste-button" id="pasteButton" type="button" aria-label="Pegar enlace desde el portapapeles" aria-describedby="paste-status">
+                <svg aria-hidden="true" viewBox="0 0 20 20" fill="none">
+                  <path d="M7 5.5h-2A1.5 1.5 0 0 0 3.5 7v8A1.5 1.5 0 0 0 5 16.5h7A1.5 1.5 0 0 0 13.5 15v-1M8 3.5h7A1.5 1.5 0 0 1 16.5 5v8A1.5 1.5 0 0 1 15 14.5H8A1.5 1.5 0 0 1 6.5 13V5A1.5 1.5 0 0 1 8 3.5Z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+                </svg>
+                <span>Pegar</span>
+              </button>
             </div>
             <button class="submit-button" type="submit">
               <span>Analizar video</span>
@@ -60,6 +69,7 @@
             </button>
           </div>
           <p class="input-hint" id="url-hint">Asegúrate de que el video sea público y que el enlace sea correcto.</p>
+          <p class="paste-status" id="paste-status" role="status" aria-live="polite"></p>
         </form>
 
         <div id="resultado" class="result-area" role="status" aria-live="polite" aria-atomic="true"></div>
@@ -123,9 +133,33 @@
     const urlInput = document.getElementById('url');
     const resultado = document.getElementById('resultado');
     const submitButton = form.querySelector('button[type="submit"]');
+    const pasteButton = document.getElementById('pasteButton');
+    const pasteStatus = document.getElementById('paste-status');
     let activeBlobUrls = [];
 
     document.getElementById('year').textContent = new Date().getFullYear();
+
+    pasteButton.addEventListener('click', async () => {
+      pasteStatus.textContent = '';
+      if (!navigator.clipboard?.readText) {
+        pasteStatus.textContent = 'El navegador no permite leer el portapapeles aquí. Pega el enlace manualmente.';
+        return;
+      }
+
+      try {
+        const clipboardText = await navigator.clipboard.readText();
+        if (!clipboardText.trim()) {
+          pasteStatus.textContent = 'El portapapeles está vacío.';
+          return;
+        }
+
+        urlInput.value = clipboardText.trim();
+        urlInput.focus();
+        pasteStatus.textContent = 'Enlace pegado. Ya puedes analizarlo.';
+      } catch {
+        pasteStatus.textContent = 'No se pudo acceder al portapapeles. Pega el enlace manualmente.';
+      }
+    });
 
     function showMessage(message, type) {
       resultado.replaceChildren();
