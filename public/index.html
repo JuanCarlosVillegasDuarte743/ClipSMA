@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
+  <meta charset="UTF-8" />
   <meta name="google-adsense-account" content="ca-pub-9788309907035738">
   <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9788309907035738"
      crossorigin="anonymous"></script>
@@ -11,11 +12,16 @@
     gtag('js', new Date());
     gtag('config', 'G-G8ML88KDRS');
   </script>
-  <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="theme-color" content="#0b0b12" />
   <meta name="description" content="Descarga videos de TikTok o guarda su audio en MP3. Pega un enlace para preparar tu archivo." />
   <title>ClipSMA — Descargador de videos</title>
+  <link rel="canonical" href="https://clipsma.onrender.com/" />
+  <meta property="og:type" content="website" />
+  <meta property="og:title" content="ClipSMA — Descargador de videos" />
+  <meta property="og:description" content="Prepara videos públicos de TikTok para guardarlos, respetando los derechos de sus creadores." />
+  <meta property="og:url" content="https://clipsma.onrender.com/" />
+  <meta property="og:image" content="https://clipsma.onrender.com/images/LogoClipSMA.png" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet" />
@@ -23,7 +29,7 @@
   <link rel="stylesheet" href="styles/main.css" />
 </head>
 <body>
-  <main class="page-shell">
+  <div class="page-shell">
     <header class="site-header">
       <a class="brand" href="/" aria-label="ClipSMA, inicio">
         <img class="brand-logo" src="/images/LogoClipSMA.png" alt="ClipSMA" />
@@ -31,6 +37,7 @@
       <span class="header-note"><span class="status-dot" aria-hidden="true"></span> Descarga sencilla y rápida</span>
     </header>
 
+    <main class="home-main">
     <section class="hero" aria-labelledby="page-title">
       <h1 id="page-title">Guarda tus videos <span>favoritos</span></h1>
       <p class="hero-copy">Pega el enlace de TikTok y prepara tu video para descargarlo en unos segundos.</p>
@@ -68,11 +75,48 @@
       <p class="fine-print">Usa esta herramienta respetando los derechos de autor y las condiciones de TikTok.</p>
     </section>
 
+    <section class="home-guide" aria-labelledby="guide-title">
+      <div class="guide-section">
+        <h2 id="guide-title">Cómo usar ClipSMA</h2>
+        <ol class="guide-steps">
+          <li><strong>Copia el enlace</strong> de un video público de TikTok que tengas derecho a guardar.</li>
+          <li><strong>Pégalo en el formulario</strong> y selecciona “Analizar video”. El enlace se envía al proveedor externo que procesa la solicitud.</li>
+          <li><strong>Revisa el resultado</strong> y utiliza las opciones disponibles para guardar el archivo en tu dispositivo.</li>
+        </ol>
+      </div>
+      <div class="guide-section">
+        <h2>Uso responsable y privacidad</h2>
+        <p>ClipSMA no comprueba quién posee un video ni si quien lo solicita tiene permiso para descargarlo. Usa la herramienta solo con contenido propio o para el que tengas autorización. Descargar o compartir contenido puede estar sujeto a derechos de autor y a las condiciones de TikTok.</p>
+        <p>El enlace que envías se procesa mediante un servicio externo. No pegues enlaces privados ni compartas datos personales. Consulta nuestra <a href="/privacy/">política de privacidad</a> para conocer el uso de servicios externos, cookies y publicidad.</p>
+      </div>
+      <div class="guide-section" aria-labelledby="faq-title">
+        <h2 id="faq-title">Preguntas frecuentes</h2>
+        <details>
+          <summary>¿Puedo procesar cualquier video de TikTok?</summary>
+          <p>La herramienta acepta enlaces de TikTok, pero el proveedor externo puede no procesar videos privados, eliminados, restringidos o no compatibles. La disponibilidad no implica permiso para descargar o redistribuir un video.</p>
+        </details>
+        <details>
+          <summary>¿Qué formatos ofrece?</summary>
+          <p>La aplicación muestra una opción de video y, si el proveedor devuelve una pista de audio, una opción de audio MP3. La disponibilidad y calidad dependen del proveedor y del video de origen.</p>
+        </details>
+        <details>
+          <summary>¿Por qué puede fallar un enlace?</summary>
+          <p>El video podría ser privado, no estar disponible o no ser compatible. Comprueba que el enlace sea HTTPS y corresponda a TikTok; ClipSMA no puede garantizar la disponibilidad del servicio externo.</p>
+        </details>
+      </div>
+    </section>
+    </main>
+
     <footer class="site-footer">
       <span>© <span id="year"></span> ClipSMA</span>
-      <span>Hecho para que guardar sea más fácil.</span>
+      <nav class="footer-links" aria-label="Información del sitio">
+        <a href="/about/">Acerca de</a>
+        <a href="/contact/">Contacto</a>
+        <a href="/terms/">Términos</a>
+        <a href="/privacy/">Privacidad</a>
+      </nav>
     </footer>
-  </main>
+  </div>
 
   <script>
     const form = document.getElementById('downloadForm');
