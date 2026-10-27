@@ -53,7 +53,37 @@ test('serves the informational pages, robots.txt, and sitemap', async () => {
     const homeHtml = await home.text();
     assert.equal((homeHtml.match(/adsbygoogle\.js/g) || []).length, 1);
     assert.match(homeHtml, /name="google-adsense-account" content="ca-pub-9788309907035738"/);
+    assert.match(homeHtml, /window\.location\.protocol === 'file:'/);
+    assert.match(homeHtml, /contentType\.toLowerCase\(\)\.includes\('application\/json'\)/);
+    assert.match(homeHtml, /const responseBody = await response\.text\(\)/);
+    assert.match(homeHtml, /data = JSON\.parse\(responseBody\)/);
   });
+});
+
+test('all internal page links resolve from local HTML files', () => {
+  const publicDir = path.join(__dirname, '..', 'public');
+  const htmlFiles = [
+    'index.html',
+    'about/index.html',
+    'contact/index.html',
+    'privacy/index.html',
+    'terms/index.html'
+  ];
+
+  for (const file of htmlFiles) {
+    const filePath = path.join(publicDir, file);
+    const html = fs.readFileSync(filePath, 'utf8');
+    const links = [...html.matchAll(/href="([^"]+)"/g)].map((match) => match[1]);
+
+    for (const href of links) {
+      if (/^(?:[a-z]+:|#|\/)/i.test(href)) {
+        continue;
+      }
+
+      const target = path.resolve(path.dirname(filePath), href.split('#')[0]);
+      assert.ok(fs.existsSync(target), `${file} has a broken local link: ${href}`);
+    }
+  }
 });
 
 test('rejects non-TikTok links without contacting the external API', async () => {
