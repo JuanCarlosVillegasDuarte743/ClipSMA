@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="theme-color" content="#0b0b12" />
+  <meta name="description" content="Contacta al responsable de ClipSMA para consultas, privacidad o reportes de derechos." />
+  <title>Contacto — ClipSMA</title>
+  <link rel="canonical" href="https://clipsma.onrender.com/contact/" />
+  <link rel="icon" type="image/png" href="/images/ClipSMAIcon.png" />
+  <link rel="stylesheet" href="/styles/main.css" />
+</head>
+<body>
+  <div class="page-shell">
+    <header class="site-header">
+      <a class="brand" href="/" aria-label="ClipSMA, inicio">
+        <img class="brand-logo" src="/images/LogoClipSMA.png" alt="ClipSMA" />
+      </a>
+      <a class="header-note" href="/">Volver al inicio</a>
+    </header>
+    <main class="info-main">
+      <article class="content-card">
+        <p class="page-kicker">Estamos disponibles</p>
+        <h1>Contacto</h1>
+        <p>Para consultas sobre ClipSMA, privacidad o para reportar contenido presuntamente infractor, escribe a <a href="mailto:contact.clipsma@gmail.com">contact.clipsma@gmail.com</a>.</p>
+        <p>El formulario abre tu aplicación de correo; no envía ni guarda mensajes en los servidores de ClipSMA. Si no tienes una aplicación de correo configurada, puedes copiar la dirección y escribir directamente.</p>
+        <form class="contact-form" id="contact-form">
+          <label for="contact-topic">Motivo</label>
+          <select id="contact-topic" name="topic">
+            <option value="Consulta general">Consulta general</option>
+            <option value="Privacidad">Privacidad</option>
+            <option value="Reporte de derechos">Reporte de derechos</option>
+            <option value="Problema técnico">Problema técnico</option>
+          </select>
+          <label for="contact-message">Mensaje</label>
+          <textarea id="contact-message" name="message" rows="6" maxlength="4000" required></textarea>
+          <button class="submit-button" type="submit">Abrir aplicación de correo</button>
+          <p class="contact-status" id="contact-status" role="status" aria-live="polite"></p>
+        </form>
+        <p>Evita incluir contraseñas, información financiera o datos personales que no sean necesarios para atender tu consulta.</p>
+      </article>
+    </main>
+    <footer class="site-footer">
+      <span>© <span class="current-year"></span> ClipSMA</span>
+      <nav class="footer-links" aria-label="Información del sitio">
+        <a href="/about/">Acerca de</a><a href="/contact/">Contacto</a><a href="/terms/">Términos</a><a href="/privacy/">Privacidad</a>
+      </nav>
+    </footer>
+  </div>
+  <script>
+    document.querySelector('.current-year').textContent = new Date().getFullYear();
+    document.getElementById('contact-form').addEventListener('submit', (event) => {
+      event.preventDefault();
+      const topic = document.getElementById('contact-topic').value;
+      const message = document.getElementById('contact-message').value.trim();
+      const status = document.getElementById('contact-status');
+      if (!message) {
+        status.textContent = 'Escribe un mensaje antes de continuar.';
+        return;
+      }
+
+      const subject = encodeURIComponent(`ClipSMA: ${topic}`);
+      const body = encodeURIComponent(message);
+      status.textContent = 'Se abrirá tu aplicación de correo para que puedas enviar el mensaje.';
+      window.location.href = `mailto:contact.clipsma@gmail.com?subject=${subject}&body=${body}`;
+    });
+  </script>
+</body>
+</html>
